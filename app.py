@@ -6,7 +6,7 @@ app = Flask(__name__)
 def index():
     # page is loaded, need to simply display the form
     if request.method == 'GET':
-        return render_template('index.html', title='Token Swap')
+        return render_template('index.html', title='Token Swap', message='Click the Submit button to Swap your tokens')
     elif request.method == 'POST':
         # form was submitted, need to get variables
         original_token = request.form['ogToken']
@@ -14,4 +14,8 @@ def index():
         target_token = request.form['targetToken']
         target_amount = request.form['targetAmount']
         display = "Original Token: " + original_token + "\nOriginal Amount: " + original_amount + "\nTarget Token: " + target_token + "\nTarget Amount: " + target_amount 
-        return render_template('index.html', title='Token Swap', form_params=display)
+        # need logic to make this dynamic, static for now
+        estimate_gas = 5
+        return render_template('index.html', title='Token Swap', form_params=display, message='Estimated gas price: ' + str(estimate_gas))
+
+    
