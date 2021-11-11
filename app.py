@@ -40,7 +40,7 @@ def index():
         try:
             address = Web3.toChecksumAddress(user_address)
             if Web3.isChecksumAddress(address):
-                uniswap = Uniswap(address=address, private_key=priv_key, version=2, provider=w3_ropsten) #w3 or w3_ropsten depending on testing or live
+                uniswap = Uniswap(address=address, private_key=priv_key, version=3, provider=w3_ropsten) #w3 or w3_ropsten depending on testing or live
 
             else:
                 add_check = "Invalid Address"
