@@ -5,6 +5,16 @@
   <h1>Token Swap</h1>
   <form id="contract-form" method="POST" target="/">
       <div class="inputbox">
+          <!-- <input value="" type="text" class="form-control" name="ogToken" required="true">
+          <span>Original Token</span> -->
+          <label for="network">Choose a network:</label>
+          <select name="network">
+            {% for key,value in networks.items() %}
+              <option value="{{key}}">{{key}}</option>
+            {% endfor %}
+          </select>
+      </div>
+      <div class="inputbox">
         <input value="" type="text" class="form-control" name="userAddress" required="true">
         <span>Your Wallet Address</span>
       </div>
@@ -18,7 +28,7 @@
           <label for="ogToken">Original Token:</label>
           <select name="ogToken">
             {% for key,value in tokens.items() %}
-              <option value={{key}}>{{key}}</option>
+              <option value="{{key}}">{{key}}</option>
             {% endfor %}
           </select>
       </div>
