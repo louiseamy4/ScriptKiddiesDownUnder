@@ -25,7 +25,7 @@ app = Flask(__name__)
 def index():
     # page is loaded, need to simply display the form
     if request.method == 'GET':
-        return render_template('index.html', title='Token Swap', message='Click the Submit button to Swap your tokens')
+        return render_template('index.html', title='Token Swap', message='Click the Submit button to Swap your tokens',tokens=tokens)
     elif request.method == 'POST':
         # form was submitted, need to get variables
         user_address = request.form['userAddress']
