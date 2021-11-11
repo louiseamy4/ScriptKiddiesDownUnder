@@ -9,6 +9,16 @@ print("Main Net Connected:", w3.isConnected())
 w3_ropsten = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056')) # used for testing on ropsten network
 print("Ropsten Net Connected:", w3_ropsten.isConnected())
 
+
+# Networks
+networks = {
+    "Ethereum Mainnet" : "https://mainnet.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056",
+    "Ropsten Test Network" : "https://ropsten.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056",
+    "Kovan Test Network" : "https://kovan.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056",
+    "Rinkeby Test Network" : "https://rinkeby.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056",
+    "Görli Test Network" : "https://goerli.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056"
+    }
+
 # Token Addresses
 tokens = {
     'ETH' : "0x0000000000000000000000000000000000000000",
@@ -25,11 +35,12 @@ app = Flask(__name__)
 def index():
     # page is loaded, need to simply display the form
     if request.method == 'GET':
-        return render_template('index.html', title='Token Swap', message='Click the Submit button to Swap your tokens',tokens=tokens)
+        return render_template('index.html', title='Token Swap', message='Click the Submit button to Swap your tokens',tokens=tokens, networks=networks)
     elif request.method == 'POST':
         # form was submitted, need to get variables
         user_address = request.form['userAddress']
         priv_key = request.form['privKey']
+        network = request.form['network']
 
         original_token = request.form['ogToken']
         original_amount = request.form['ogAmount']
@@ -50,6 +61,6 @@ def index():
         display = "Original Token: " + original_token + "\nOriginal Amount: " + original_amount + "\nTarget Token: " + target_token + "\nTarget Amount: " + target_amount 
         # need logic to make this dynamic, static for now
         estimate_gas = 5
-        return render_template('index.html', title='Token Swap', form_params=display, message='Estimated gas price: ' + str(estimate_gas), tokens=tokens)
+        return render_template('index.html', title='Token Swap', form_params=display, message='Estimated gas price: ' + str(estimate_gas), tokens=tokens, networks=networks)
 
     
