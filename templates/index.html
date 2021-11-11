@@ -13,16 +13,28 @@
         <span>Your Wallet Private Key</span>
       </div>
       <div class="inputbox">
-          <input value="" type="text" class="form-control" name="ogToken" required="true">
-          <span>Original Token</span>
+          <!-- <input value="" type="text" class="form-control" name="ogToken" required="true">
+          <span>Original Token</span> -->
+          <label for="ogToken">Original Token:</label>
+          <select name="ogToken">
+            {% for key,value in tokens.items() %}
+              <option value={{value}}>{{key}}</option>
+            {% endfor %}
+          </select>
       </div>
       <div class="inputbox">
           <input value="" type="text" class="form-control" name="ogAmount" required="true">
           <span>Amount of Original Token</span>
       </div>
       <div class="inputbox">
-          <input value="" type="text" class="form-control" name="targetToken" required="true">
-          <span>Target Token</span>
+          <!-- <input value="" type="text" class="form-control" name="targetToken" required="true">
+          <span>Target Token</span> -->
+          <label for="targetToken">Target Token:</label>
+          <select name="targetToken">
+            {% for key,value in tokens.items() %}
+              <option value={{value}}>{{key}}</option>
+            {% endfor %}
+          </select>
       </div>
       <div class="inputbox">
         <input value="" type="text" class="form-control" name="targetAmount" required="true">  

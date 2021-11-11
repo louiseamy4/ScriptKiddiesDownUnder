@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="center">
+    <h1>Token Swap</h1>
+    <form id="contract-form" method="POST" target="/approve">
+        <div class="inputbox">
+          <input value="" type="text" class="form-control" name="userAddress" id="userAddress" required="true">
+          <span>Your Wallet Address</span>
+        </div>
+        <div class="inputbox">
+          <input value="" type="text" class="form-control" name="privKey" id="privKey" required="true">
+          <span>Your Wallet Private Key</span>
+        </div>
+        <div class="inputbox">
+            <input value="" type="text" class="form-control" name="ogToken" id="ogToken" required="true">
+            <span>Original Token</span>
+        </div>
+        <div class="inputbox">
+            <input value="" type="text" class="form-control" name="ogAmount" id="ogAmount" required="true">
+            <span>Amount of Original Token</span>
+        </div>
+        <div class="inputbox">
+            <input value="" type="text" class="form-control" name="targetToken" id="targetToken" required="true">
+            <span>Target Token</span>
+        </div>
+        <div class="inputbox">
+          <input value="" type="text" class="form-control" name="targetAmount" id="targetAmount" required="true">  
+           <span>Amount of Target Token</span> 
+        </div>
+        <div class="inputbox">
+          <button type="submit" class="btn btn-primary">Confirm</button>
+        </div>
+        <p>{{message}}</p>
+        <p>{{form_params}}</p>
+      </form>
+  </div>
+{% endblock %}
+
+{% block script %}
+<!-- fill in the values as passed from the index form -->
+    document.getElementById("userAddress").value = {{user_address}};
+    document.getElementById("privKey").value = {{priv_key}};
+    document.getElementById("ogToken").value = {{original_token}};
+    document.getElementById("ogAmount").value = {{original_amount}};
+    document.getElementById("targetToken").value = {{target_token}};
+    document.getElementById("targetAmount").value = {{target_amount}};
+
+{% endblock %}
