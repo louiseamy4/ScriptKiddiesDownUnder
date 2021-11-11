@@ -7,7 +7,7 @@ w3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/bf23d8eecbea43c38ab48f
 print("Main Net Connected:", w3.isConnected()) 
 
 w3_ropsten = Web3(Web3.HTTPProvider('https://ropsten.infura.io/v3/bf23d8eecbea43c38ab48f85c7d35056')) # used for testing on ropsten network
-print("Ropsten Net Connected:", w3_ropsten.IsConnected())
+print("Ropsten Net Connected:", w3_ropsten.isConnected())
 
 # Token Addresses
 tokens = {
