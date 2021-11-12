@@ -5,17 +5,9 @@
     <h1>Token Swap</h1>
     <h4>These transaction details are correct as at {{timestamp}}, prices are subject to change.</h4>
     <form id="contract-form" method="POST" action="/execute">
+        <p>Your network:</p>
         <div class="inputbox">
-            <label id="network" for="network">Your network:</label>
-            <select name="network">
-              {% for key,value in networks.items() %}
-                {% if key == network %}
-                  <option value="{{key}}" selected>{{key}}</option>
-                {% else %}
-                  <option value="{{key}}">{{key}}</option>
-                {% endif %}
-              {% endfor %}
-            </select>
+          <input value="{{network}}" type="text" class="form-control" name="network" id="network" required="true" readonly>
         </div>
         <p>Your Wallet Address</p>
         <div class="inputbox">
@@ -25,33 +17,17 @@
         <div class="inputbox">
           <input value="{{priv_key}}" type="text" class="form-control" name="privKey" id="privKey" required="true" readonly>
         </div>
+        <p>Original Token:</p>
         <div class="inputbox">
-          <label id="ogToken" for="ogToken">Original Token:</label>
-          <select name="ogToken">
-            {% for key,value in tokens.items() %}
-              {% if key == original_token %}
-                <option value="{{key}}" selected>{{key}}</option>
-              {% else %}
-                <option value="{{key}}">{{key}}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
+          <input value="{{original_token}}" type="text" class="form-control" name="ogToken" id="ogToken" required="true" readonly>
         </div>
         <p>Amount of Original Token</p>
         <div class="inputbox">
             <input value="{{original_amount}}" type="text" class="form-control" name="ogAmount" id="ogAmount" required="true" readonly>
         </div>
+        <p>Target Token:</p>
         <div class="inputbox">
-          <label id="targetToken" for="targetToken">Target Token:</label>
-          <select name="targetToken">
-            {% for key,value in tokens.items() %}
-            {% if key == target_token %}
-              <option value="{{key}}" selected>{{key}}</option>
-            {% else %}
-              <option value="{{key}}">{{key}}</option>
-            {% endif %}
-          {% endfor %}
-          </select>
+          <input value="{{target_token}}" type="text" class="form-control" name="targetToken" id="targetToken" required="true" readonly>
         </div>
         <p>Amount of Target Token</p> 
         <div class="inputbox">
