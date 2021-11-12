@@ -3,7 +3,8 @@
 {% block main %}
 <div class="center">
   <h1>Token Swap</h1>
-  <form id="contract-form" method="POST" action="/">
+  <form id="show-contract-form" method="POST" action="/">
+    <div id="networkclass">
       <div class="inputbox">
           <label id="network" for="network">Choose a network:</label>
           <select name="network">
@@ -16,14 +17,18 @@
             {% endfor %}
           </select>
       </div>
+    </div>
+    <div id="walletclass">
+      <p>Your Wallet Address</p>
       <div class="inputbox">
         <input value="{{user_address}}" type="text" class="form-control" name="userAddress" required="true">
-        <span>Your Wallet Address</span>
       </div>
+      <p>Your Wallet Private Key</p>
       <div class="inputbox">
         <input value="{{priv_key}}" type="text" class="form-control" name="privKey" required="true">
-        <span>Your Wallet Private Key</span>
       </div>
+    </div>
+      <div id="originalclass">
       <div class="inputbox">
           <label id="ogToken" for="ogToken">Original Token:</label>
           <select name="ogToken">
@@ -36,10 +41,12 @@
             {% endfor %}
           </select>
       </div>
+      <p>Amount of Original Token</p>
       <div class="inputbox">
-          <input value="{{original_amount}}" type="text" class="form-control" name="ogAmount" required="true">
-          <span>Amount of Original Token</span>
+          <input value="{{original_amount}}" type="text" class="form-control" name="ogAmount" required="true"> 
       </div>
+    </div>
+    <div id="targetclass">
       <div class="inputbox">
           <label id="targetToken" for="targetToken">Target Token:</label>
           <select name="targetToken">
@@ -52,13 +59,11 @@
           {% endfor %}
           </select>
       </div>
-      <div class="inputbox">
-        <input value="{{target_amount}}" type="text" class="form-control" name="targetAmount" id="targetAmount" disabled>  
-         <span>Amount of Target Token</span> 
-      </div>
+    </div>
       <div class="inputbox">
         <button type="submit" name="calculate" value="calculate">Calculate</button>
       </div>
+    
       <p>{{message}}</p>
       <p>{{form_params}}</p>
     </form>

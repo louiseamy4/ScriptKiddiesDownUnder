@@ -4,43 +4,50 @@
 <div class="center">
     <h1>Token Swap</h1>
     <h4>These transaction details are correct as at {{timestamp}}, prices are subject to change.</h4>
+    <p>Your network: {{network}}</p>
+    <p>Your Wallet Address: {{user_address}}</p>
+    <p>Your Wallet Private Key: {{priv_key}}</p>
+    <p>Original Token: {{original_token}}</p>
+    <p>Amount of Original Token: {{original_amount}}</p>
+    <p>Target Token: {{target_token}}</p>
+    <p>Amount of Target Token: {{target_amount}}</p> 
+    <p>{{message}}</p>
+    <p>{{form_params}}</p>
     <form id="contract-form" method="POST" action="/execute">
-        <p>Your network:</p>
+      <div class="hidden">
         <div class="inputbox">
-          <input value="{{network}}" type="text" class="form-control" name="network" id="network" required="true" readonly>
+          <input value="{{network}}" type="hidden" class="form-control" name="network" id="network" required="true" readonly>
         </div>
-        <p>Your Wallet Address</p>
+      </div>
+      <div class="hidden">
         <div class="inputbox">
-          <input value="{{user_address}}" type="text" class="form-control" name="userAddress" id="userAddress" required="true" readonly>
+          <input value="{{user_address}}" type="hidden" class="form-control" name="userAddress" id="userAddress" required="true" readonly>
         </div>
-        <p>Your Wallet Private Key</p>
+        
         <div class="inputbox">
-          <input value="{{priv_key}}" type="text" class="form-control" name="privKey" id="privKey" required="true" readonly>
+          <input value="{{priv_key}}" type="hidden" class="form-control" name="privKey" id="privKey" required="true" readonly>
         </div>
-        <p>Original Token:</p>
+      </div>
+      <div class="hidden">
         <div class="inputbox">
-          <input value="{{original_token}}" type="text" class="form-control" name="ogToken" id="ogToken" required="true" readonly>
+          <input value="{{original_token}}" type="hidden" class="form-control" name="ogToken" id="ogToken" required="true" readonly>
         </div>
-        <p>Amount of Original Token</p>
         <div class="inputbox">
-            <input value="{{original_amount}}" type="text" class="form-control" name="ogAmount" id="ogAmount" required="true" readonly>
+            <input value="{{original_amount}}" type="hidden" class="form-control" name="ogAmount" id="ogAmount" required="true" readonly>
         </div>
-        <p>Target Token:</p>
+      </div>
+      <div class="hidden">
         <div class="inputbox">
-          <input value="{{target_token}}" type="text" class="form-control" name="targetToken" id="targetToken" required="true" readonly>
+          <input value="{{target_token}}" type="hidden" class="form-control" name="targetToken" id="targetToken" required="true" readonly>
         </div>
-        <p>Amount of Target Token</p> 
         <div class="inputbox">
-          <input value="{{target_amount}}" type="text" class="form-control" name="targetAmount" id="targetAmount" required="true" readonly>  
+          <input value="{{target_amount}}" type="hidden" class="form-control" name="targetAmount" id="targetAmount" required="true" readonly>  
         </div>
+      </div>
         <div class="inputbox">
           <button type="submit" class="btn btn-primary">Execute</button>
         </div>
-        <div class="inputbox">
-          <a href="/">Back to swap page</a>
-        </div>
-        <p>{{message}}</p>
-        <p>{{form_params}}</p>
+          <a href="/" class="homepage">Back to swap page</a>
       </form>
   </div>
 {% endblock %}
