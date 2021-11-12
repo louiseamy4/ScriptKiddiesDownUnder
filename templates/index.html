@@ -3,62 +3,70 @@
 {% block main %}
 <div class="center">
   <h1>Token Swap</h1>
-  <form id="contract-form" method="POST" target="/">
+  <form id="contract-form" method="POST" action="/approve">
       <div class="inputbox">
-          <!-- <input value="" type="text" class="form-control" name="ogToken" required="true">
-          <span>Original Token</span> -->
-          <label for="network">Choose a network:</label>
+          <label id="network" for="network">Choose a network:</label>
           <select name="network">
             {% for key,value in networks.items() %}
-              <option value="{{key}}">{{key}}</option>
+              {% if key == network %}
+                <option value="{{key}}" selected>{{key}}</option>
+              {% else %}
+                <option value="{{key}}">{{key}}</option>
+              {% endif %}
             {% endfor %}
           </select>
       </div>
       <div class="inputbox">
-        <input value="" type="text" class="form-control" name="userAddress" required="true">
+        <input value="{{user_address}}" type="text" class="form-control" name="userAddress" required="true">
         <span>Your Wallet Address</span>
       </div>
       <div class="inputbox">
-        <input value="" type="text" class="form-control" name="privKey" required="true">
+        <input value="{{priv_key}}" type="text" class="form-control" name="privKey" required="true">
         <span>Your Wallet Private Key</span>
       </div>
       <div class="inputbox">
-          <!-- <input value="" type="text" class="form-control" name="ogToken" required="true">
-          <span>Original Token</span> -->
-          <label for="ogToken">Original Token:</label>
+          <label id="ogToken" for="ogToken">Original Token:</label>
           <select name="ogToken">
             {% for key,value in tokens.items() %}
-              <option value="{{key}}">{{key}}</option>
+              {% if key == original_token %}
+                <option value="{{key}}" selected>{{key}}</option>
+              {% else %}
+                <option value="{{key}}">{{key}}</option>
+              {% endif %}
             {% endfor %}
           </select>
       </div>
       <div class="inputbox">
-          <input value="" type="text" class="form-control" name="ogAmount" required="true">
+          <input value="{{original_amount}}" type="text" class="form-control" name="ogAmount" required="true">
           <span>Amount of Original Token</span>
       </div>
       <div class="inputbox">
-          <!-- <input value="" type="text" class="form-control" name="targetToken" required="true">
-          <span>Target Token</span> -->
-          <label for="targetToken">Target Token:</label>
+          <label id="targetToken" for="targetToken">Target Token:</label>
           <select name="targetToken">
             {% for key,value in tokens.items() %}
-              <option value={{key}}>{{key}}</option>
-            {% endfor %}
+            {% if key == target_token %}
+              <option value="{{key}}" selected>{{key}}</option>
+            {% else %}
+              <option value="{{key}}">{{key}}</option>
+            {% endif %}
+          {% endfor %}
           </select>
       </div>
       <div class="inputbox">
-        <input value="" type="text" class="form-control" name="targetAmount" required="true">  
+        <input value="{{target_amount}}" type="text" class="form-control" name="targetAmount" id="targetAmount" disabled>  
          <span>Amount of Target Token</span> 
       </div>
       <div class="inputbox">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" name="calculate" value="calculate">Calculate</button>
       </div>
       <p>{{message}}</p>
       <p>{{form_params}}</p>
     </form>
 </div>
 {% endblock %}
+<script>
 
+</script>
 {% block script %}
 <!-- <script src="web3.min.js"></script>
 <script src="contractAbi.js"></script>
