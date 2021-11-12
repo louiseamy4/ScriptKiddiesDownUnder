@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="center">
+    <h1>ORDER PLACED</h1>
+    <h4>These transaction details are correct as at {{timestamp}}, prices are subject to change.</h4>
+    <p>Your network: {{network}}</p>
+    <p>Your Wallet Address: {{user_address}}</p>
+    <p>Your Wallet Private Key: {{priv_key}}</p>
+    <p>Original Token: {{original_token}}</p>
+    <p>Amount of Original Token: {{original_amount}}</p>
+    <p>Target Token: {{target_token}}</p>
+    <p>Amount of Target Token: {{target_amount}}</p> 
+    <p>{{message}}</p>
+    <p>{{form_params}}</p>
+          <a href="/" class="homepage">Back to swap page</a>
+      </form>
+  </div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
