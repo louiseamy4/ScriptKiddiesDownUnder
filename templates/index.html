@@ -3,7 +3,7 @@
 {% block main %}
 <div class="center">
   <h1>Token Swap</h1>
-  <form id="show-contract-form" method="POST" action="/">
+  <form id="contract-form" method="POST" action="/">
     <div id="networkclass">
       <div class="inputbox">
           <label id="network" for="network">Choose a network:</label>
@@ -43,7 +43,7 @@
       </div>
       <p>Amount of Original Token</p>
       <div class="inputbox">
-          <input value="{{original_amount}}" type="text" class="form-control" name="ogAmount" required="true"> 
+          <input value="{{original_amount}}" type="number" class="form-control" min="0" step="any" name="ogAmount" id="ogAmount" required="true"> 
       </div>
     </div>
     <div id="targetclass">
@@ -68,10 +68,28 @@
     </form>
 </div>
 {% endblock %}
+
+{% block script %}
 <script>
 
+  var form = document.getElementById('contract-form');
+
+  if (!form.addEventListener) {
+      form.attachEvent("onsubmit", checkForm); //IE8 and below
+  }
+  else {
+      form.addEventListener("submit", checkForm);
+  }
+
+  function checkForm(event) { 
+      if(form.elements['ogAmount'].value <= 0) {
+          event.preventDefault();
+          alert("Invalid original token amount, must be greater than 0!");   
+      } else {
+        form.submit();
+      }
+  }
 </script>
-{% block script %}
 <!-- <script src="web3.min.js"></script>
 <script src="contractAbi.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

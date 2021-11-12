@@ -4,6 +4,7 @@ import json
 from uniswap import Uniswap
 from web3 import Web3
 import os
+from datetime import datetime
 
 # Networks
 networks = {
@@ -103,6 +104,10 @@ def index():
     if request.method == 'GET':
         return render_template('index.html', title='Token Swap', message=message,tokens=tokens_main, networks=networks)
     elif request.method == 'POST':
+        # form was submitted, save global varible at time of submitting
+        global timestamp 
+        now = datetime.now()
+        timestamp = now.strftime("%d/%m/%Y %H:%M:%S")
         # form was submitted, need to get variables
         user_address = request.form['userAddress']
         priv_key = request.form['privKey']
@@ -161,7 +166,7 @@ def index():
                 
             return render_template('approve.html', title='Token Swap', 
                  form_params=display, message='Estimated Price Impact: ' + str(round(price_impact*100,2)) + '%', tokens=tokens, networks=networks, user_address=user_address,
-                  priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount/10**targ_decimal, target_token=target_token, network=network)
+                  priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount/10**targ_decimal, target_token=target_token, network=network, timestamp=timestamp)
 
                 # return redirect("/approve")
 
@@ -258,7 +263,8 @@ def execute():
 
         uniswap.make_trade(orig_add,targ_add, amount)
 
-        return render_template('confirmed.html', title='Confirmation', message='Your order has been placed')
+        return render_template('confirmed.html', title='Confirmation', message='Your order has been placed', user_address=user_address,
+                  priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount, target_token=target_token, network=network, timestamp=timestamp)
         
         
         

@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: rgba(116, 238, 116, 0.726);
+    background: #4A5043;
     font-family: sans-serif;
 }
 
@@ -20,7 +20,7 @@ body {
 
 .center h1 {
     font-size: 2em;
-    border-bottom: 5px solid rgb(98, 30, 255);
+    border-bottom: 5px solid #FFCB47;
     padding: 10px;
     color: #000;
     margin-bottom: 10px;
@@ -38,14 +38,14 @@ body {
 }
 
 #originalclass {
-    background-color: rgba(210, 191, 247, 0.356);
+    background-color: #B9D8C2;
     border-radius: 20px;
     padding: 5px;
     margin: 5px;
 }
 
 #targetclass {
-    background-color: rgba(210, 191, 247, 0.356);
+    background-color: #B9D8C2;
     border-radius: 20px;
     padding: 5px;
     margin: 5px;
@@ -80,7 +80,7 @@ body {
 .center .inputbox [type="submit"] {
     width: 50%;
     height: 100%;
-    background: rgb(110, 216, 97);
+    background: #8AA1B1;
     color: #fff;
     border: #fff;
     font-size: 2em;
@@ -89,7 +89,7 @@ body {
 }
 
 .center .inputbox:hover [type="submit"] {
-    background: rgba(206, 58, 58, 0.726);
+    background: #FFCB47;
     color: #000;
 }
 
@@ -102,13 +102,17 @@ body {
     background-color: red;
     border-radius: 20px;
 }
+
+#approve_swap, #decline_swap {
+    display: inline-block;
+} 
   
 .hidden {
     display: none;
 }
 
 .homepage {
-    background-color: rgb(210, 191, 247);
+    background-color: #B9D8C2;
     color: white;
     padding: 14px 25px;
     text-align: center;
@@ -117,9 +121,13 @@ body {
     margin-top: 50px;
     color: black;
     border-radius: 20px;
+    margin-bottom: 50px;
 }
       
 .homepage:hover, .homepage:active {
     background-color: rgb(237, 236, 240);
 }
 
+#status_message {
+    color: red;
+}
