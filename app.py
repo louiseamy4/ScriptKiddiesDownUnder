@@ -21,14 +21,34 @@ tokens = {
     'WETH' : "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 }
 
+def calc_impact(token_in, token_out, amount_in, uniswap)-> float:
+    amount_small = 10**2
+    print(amount_small,token_in,token_out)
+    cost_small = uniswap.get_price_input(token_in, token_out, amount_small)
+    cost_amount = uniswap.get_price_input(token_in, token_out, amount_in)
+    price_small = cost_small / amount_small
+    price_amount = cost_amount / amount_in
+
+    return (price_small - price_amount) / price_small
+
+
 #calculates swap value and gas prices
 def calculate(uniswap, original_tk, target_tk, original_amount, w3):
     print(original_amount)
-    target_amount = uniswap.get_price_input(original_tk, target_tk, int(original_amount))
-    gas_price = Web3.fromWei(w3.eth.gas_price,'ether')
+    if original_tk == "0x0000000000000000000000000000000000000000":
+        orig_decimal = 18
+    else:
+        orig_decimal = uniswap.get_token(original_tk).decimals
+    
+    targ_decimal = uniswap.get_token(target_tk).decimals
+
+    quantity = float(original_amount) * 10 ** orig_decimal
+    target_amount = uniswap.get_price_input(original_tk, target_tk, int(quantity))
+    # price_impact = uniswap.estimate_price_impact(original_tk, target_tk, int(quantity))
+    price_impact = calc_impact(original_tk,target_tk, int(quantity), uniswap)
     print(target_amount)
-    print(gas_price)
-    return(target_amount, gas_price)
+    print(price_impact)
+    return(target_amount, price_impact, orig_decimal, targ_decimal)
 
 app = Flask(__name__)
 # commit testing
@@ -47,6 +67,7 @@ def index():
         original_token = request.form['ogToken']
         original_amount = request.form['ogAmount']
         target_token = request.form['targetToken']
+
         try:
             target_amount = request.form['targetAmount']
         except KeyError:
@@ -57,16 +78,16 @@ def index():
 
         # Set up network
         # redirect with error message if fails
-        try:
-            w3= Web3(Web3.HTTPProvider(networks[network]))
-            if w3.isConnected():
-                print(network, "successfully connected")
-            else:
-                message = "An error occured when connecting to " + network
-                return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-        except:
+    # try:
+        w3= Web3(Web3.HTTPProvider(networks[network]))
+        if w3.isConnected():
+            print(network, "successfully connected")
+        else:
             message = "An error occured when connecting to " + network
             return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
+    # except:
+        # message = "An error occured when connecting to " + network
+        # return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
         
 
         # # CODE FOR GENERATING ALL TOKENS
@@ -94,14 +115,21 @@ def index():
             print("success")
             
             if 'calculate' in request.form:
-                target_amount, gas_price = calculate(uniswap, original_token, target_token, original_amount,w3)
+                # target_amount, price_impact = calculate(uniswap, original_token, target_token, original_amount,w3)
 
-            orig_add = Web3.toChecksumAddress(tokens[request.form['ogToken']])
-            targ_add = Web3.toChecksumAddress(tokens[request.form['targetToken']])
+                orig_add = Web3.toChecksumAddress(tokens[request.form['ogToken']])
+                targ_add = Web3.toChecksumAddress(tokens[request.form['targetToken']])
 
-            print("Calculating: " + request.form['ogToken'] + "/" + request.form['targetToken'])
-            target_amount, gas_price = calculate(uniswap, orig_add, targ_add, original_amount,w3)
-            # target_amount, gas_price = calculate(uniswap, request.form['ogToken'].lower(), request.form['targetToken'].lower(), original_amount,w3)
+                print("Calculating: " + request.form['ogToken'] + "/" + request.form['targetToken'])
+                target_amount, price_impact, orig_decimal, targ_decimal = calculate(uniswap, orig_add, targ_add, original_amount,w3)
+                
+                display = "Original Token: " + original_token + "\nOriginal Amount: " + original_amount + "\nTarget Token: "\
+                        + target_token + "\nTarget Amount: " + str(target_amount/10**targ_decimal)
+                return render_template('approve.html', title='Token Swap', 
+                 form_params=display, message='Estimated gas price: ' + str(price_impact), tokens=tokens, networks=networks, user_address=user_address,
+                  priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount/10**targ_decimal, target_token=target_token, network=network)
+
+                # return redirect("/approve")
 
         else:
             message = "Invalid Address"
@@ -112,10 +140,11 @@ def index():
         # print("try failed")
         # return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
 
-        display = "Original Token: " + original_token + "\nOriginal Amount: " + original_amount + "\nTarget Token: " + target_token + "\nTarget Amount: " + str(target_amount)
+      
+        
         # need logic to make this dynamic, static for now
-        estimate_gas = 5
-        return render_template('index.html', title='Token Swap', form_params=display, message='Estimated gas price: ' + str(estimate_gas), tokens=tokens, networks=networks, user_address=user_address, priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount, target_token=target_token, network=network)
+        # estimate_gas = 5
+        # return render_template('index.html', title='Token Swap', form_params=display, message='Estimated gas price: ' + str(estimate_gas), tokens=tokens, networks=networks, user_address=user_address, priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount, target_token=target_token, network=network)
 
 
 @app.route('/approve', methods=['GET', 'POST'])
