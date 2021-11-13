@@ -1,9 +1,7 @@
-import decimal
+
 from flask import Flask, render_template, request, redirect
-import json
 from uniswap import Uniswap
 from web3 import Web3
-import os
 from datetime import datetime
 
 # Networks
@@ -66,17 +64,13 @@ def calc_impact(token_in, token_out, amount_in, uniswap)-> float:
 #calculates swap value and gas prices
 def calculate(uniswap, original_tk, target_tk, original_amount):
     print(original_amount)
-    # if original_tk == "0x0000000000000000000000000000000000000000":
-    #     orig_decimal = 18
-    # else:
-    #     orig_decimal = uniswap.get_token(original_tk).decimals
     quantity, orig_decimal = coin_to_wei(uniswap,original_tk, original_amount)
 
     targ_decimal = uniswap.get_token(target_tk).decimals
     print(quantity)
-    # quantity = float(original_amount) * 10 ** orig_decimal
+
     target_amount = uniswap.get_price_input(original_tk, target_tk, quantity)
-    # price_impact = uniswap.estimate_price_impact(original_tk, target_tk, int(quantity))
+
     price_impact = calc_impact(original_tk,target_tk, quantity, uniswap)
     print(target_amount)
     print(price_impact)
@@ -108,6 +102,7 @@ def index():
         global timestamp 
         now = datetime.now()
         timestamp = now.strftime("%d/%m/%Y %H:%M:%S")
+
         # form was submitted, need to get variables
         user_address = request.form['userAddress']
         priv_key = request.form['privKey']
@@ -115,11 +110,7 @@ def index():
         original_amount = request.form['ogAmount']
         target_token = request.form['targetToken']
 
-        # try:
-        #     target_amount = request.form['targetAmount']
-        # except KeyError:
-        #     # form not submitted/calculate not pressed so no amount to display yet
-        #     target_amount = ""
+
         network = request.form['network']
         
         if original_token == target_token:
@@ -129,19 +120,14 @@ def index():
 
         # Set up network
         # redirect with error message if fails
-    # try:
+  
         w3= Web3(Web3.HTTPProvider(networks[network]))
         if w3.isConnected():
             print(network, "successfully connected")
         else:
             message = "An error occured when connecting to " + network
             return render_template('index.html', title='Token Swap', message=message,tokens=tokens_main, networks=networks)
-    # except:
-        # message = "An error occured when connecting to " + network
-        # return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-        
-        #Sets up Address
-    # try:
+
         address = Web3.toChecksumAddress(user_address)
         if Web3.isChecksumAddress(address):
             uniswap = Uniswap(address=address, private_key=priv_key, version=3, provider=networks[network],web3=w3)
@@ -168,75 +154,13 @@ def index():
                  form_params=display, message='Estimated Price Impact: ' + str(round(price_impact*100,2)) + '%', tokens=tokens, networks=networks, user_address=user_address,
                   priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount/10**targ_decimal, target_token=target_token, network=network, timestamp=timestamp)
 
-                # return redirect("/approve")
 
         else:
             message = "Invalid Address"
             print("Address check failed")
             return render_template('index.html', title='Token Swap', message=message,tokens=tokens_main, networks=networks)
-    # except:
-        # message = "Invalid Address"
-        # print("try failed")
-        # return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-
-      
-        
-        # need logic to make this dynamic, static for now
-        # estimate_gas = 5
-        # return render_template('index.html', title='Token Swap', form_params=display, message='Estimated gas price: ' + str(estimate_gas), tokens=tokens, networks=networks, user_address=user_address, priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount, target_token=target_token, network=network)
-
-
-# @app.route('/approve', methods=['GET', 'POST'])
-# def approve():
-#     pass
-    # if request.method == 'GET':
-    #     return redirect("/")
-    # else:
-    #     # form was submitted, need to get variables
-    #     user_address = request.form['userAddress']
-    #     priv_key = request.form['privKey']
-    #     original_token = request.form['ogToken']
-    #     original_amount = request.form['ogAmount']
-    #     target_token = request.form['targetToken']
-    #     try:
-    #         target_amount = request.form['targetAmount']
-    #     except KeyError:
-    #         # form not submitted/calculate not pressed so no amount to display yet
-    #         target_amount = ""
-
-    #     network = request.form['network']
-    #     tokens = network_tokens(network)
-    #     # Set up network
-    #     # redirect with error message if fails
-    #     try:
-    #         w3= Web3(Web3.HTTPProvider(networks[network]))
-    #         if w3.isConnected():
-    #             print(networks[network], "successfully connected")
-    #         else:
-    #             message = "An error occured when connecting to " + networks[network]
-    #             return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-    #     except:
-    #         message = "An error occured when connecting to " + networks[network]
-    #         return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-        
-
-    #     #Sets up Address
-    #     try:
-    #         address = Web3.toChecksumAddress(user_address)
-    #         if Web3.isChecksumAddress(address):
-    #             # uniswap = Uniswap(address=address, private_key=priv_key, version=3, provider=w3) #w3 or w3_ropsten depending on testing or live
-    #             print("Success")
-    #         else:
-    #             message = "Invalid Address"
-    #             return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-    #     except:
-    #         message = "Invalid Address"
-    #         return render_template('index.html', title='Token Swap', message=message,tokens=tokens, networks=networks)
-
-    #     display = "Original Token: " + original_token + "   Original Amount: " + original_amount + "    Target Token: " + target_token + "  Target Amount: " + target_amount 
-    #     # need logic to make this dynamic, static for now
-    #     return render_template('approve.html', title='Token Swap', form_params=display, message='Estimated Price Impact: ' + str(round(price_impact*100,2)) + '%', tokens=tokens, networks=networks, user_address=user_address, priv_key=priv_key, original_token=original_token, original_amount=original_amount, target_amount=target_amount, target_token=target_token, network=network)
-
+   
+# route to execute trade once order is confirmed 
 @app.route('/execute', methods=['GET', 'POST'])
 def execute():
     if request.method == 'GET':
