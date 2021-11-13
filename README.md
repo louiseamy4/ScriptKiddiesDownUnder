@@ -11,13 +11,14 @@ Create a virtual env and install dependencies from requirements.txt via:
 - pip install -r requirements.txt
 
 Once dependencies have been installed, ensure in main directory (with app.py) and run 
-flask run 
+- flask run 
 command in the command line to host the app on user's local host.
 
 To interact with app:
 - Will need wallet address and private key 
 - These values are entered into the swap form 
 - Also selected is the original token and the target token
+    - Refer to the list in the section below regarding which pairs are functional
 - An amount of the original token is entered
 - On submitting this initial form via calculate, the program will
 calculate the equivalent amount of target token and display a price impact
